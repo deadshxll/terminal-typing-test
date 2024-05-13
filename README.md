@@ -1,5 +1,5 @@
 # Terminal Typing Test
-A command line typing test for the terminal similar to monkeytype.com
+A command line typing test for the terminal similar to monkeytype.com for Windows
 
 ![demo-ezgif com-optimize](https://github.com/deadshxll/terminal-typing-test/assets/67878277/f2b817e1-a77c-4ab1-b6e6-806275ed345d)
 
