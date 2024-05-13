@@ -1,7 +1,7 @@
 # Terminal Typing Test
 A command line typing test for the terminal similar to monkeytype.com for Windows
 
-![demo-ezgif com-optimize](https://github.com/deadshxll/terminal-typing-test/assets/67878277/f2b817e1-a77c-4ab1-b6e6-806275ed345d)
+![demo-ezgif com-optimize(1)](https://github.com/deadshxll/terminal-typing-test/assets/67878277/8ec92b3f-c2a4-4d83-abb8-2d010ca685c8)
 
 ### What is a Typing Test?
 A typing test is a 15-60 second test that determines your typing speed, AKA words per minute (WPM). Typing tests are a fun way to practice your typing skills and web based variations exist, one of which is a very well known one; https://monkeytype.com/
