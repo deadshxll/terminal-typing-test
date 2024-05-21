@@ -3,7 +3,7 @@
  * Title: Terminal Typing Test
  * Description: A command line typing test for the terminal similar to monkeytype.com
  * Author: github.com/deadshxll
- *
+ * Source: https://github.com/deadshxll/terminal-typing-test
  */
 
 #include <conio.h>
@@ -41,14 +41,25 @@
 #endif
 
 
-long start_time;
+long long start_time;
 
 void draw_paragraph(char paragraph[], int pg_len, char typed[], int typed_len);
 int generate_paragraph(char out[], char binary_path[], int count);
 int error_count(char original[], char typed[]);
-
+long long millis();
 
 int main(int argc, char *argv[]) {
+
+  // Modifying the VirtualTerminalLevel registry key to 1 to allow for ANSI coloring in command prompt
+  DWORD val = 1;
+  HKEY key;
+  if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Console", 0, KEY_SET_VALUE | KEY_WOW64_64KEY, &key) == ERROR_SUCCESS)
+  {
+    RegSetValueExW(key, L"VirtualTerminalLevel", 0, REG_DWORD, (LPBYTE) &val, sizeof(DWORD));
+    RegCloseKey(key);
+  }
+#pragma comment(lib, "Advapi32.lib")
+
   int i, c, typed_len, pg_len, fixed_errors, errors, word_count;
   char paragraph[MAX_SIZE];
   char typed[MAX_SIZE];
@@ -90,7 +101,7 @@ int main(int argc, char *argv[]) {
       printf(WIPE_SCREEN);
     }
 
-    if (start_time <= 0) start_time = time(NULL);
+    if (start_time <= 0) start_time = millis();
 
     // Handling backspace
     // Character code '127' is CTRL + backspace
@@ -130,7 +141,7 @@ int main(int argc, char *argv[]) {
 
   printf(WHITE);
 
-  float minutes_elapsed = (time(NULL) - start_time) / 60.0;
+  float minutes_elapsed = (millis() - start_time) / 60000.0;
   printf("  WPM\t\t %.1f\n", (strlen(typed) / 5.0) / minutes_elapsed);
 
   int err_count = error_count(paragraph, typed);
@@ -162,7 +173,7 @@ void draw_paragraph(char paragraph[], int pg_len, char typed[], int typed_len) {
   printf(CLEAR_SCREEN);
 
   if (start_time > 0) {
-    sec = time(NULL) - start_time;
+    sec = (millis() - start_time) / 1000;
     min = sec / 60;
   }
 
@@ -287,3 +298,22 @@ int error_count(char original[], char typed[]) {
   return count;
 }
 
+/*
+ * Gets the current system time in milliseconds
+ *
+ * Returns:
+ *   long long: System time in milliseconds
+ */
+long long millis()
+{
+  FILETIME ft;
+  ULARGE_INTEGER uli;
+
+  GetSystemTimeAsFileTime(&ft);
+  uli.LowPart = ft.dwLowDateTime;
+  uli.HighPart = ft.dwHighDateTime;
+
+  long long milliseconds = (uli.QuadPart / 10000LL);
+
+  return milliseconds;
+}
